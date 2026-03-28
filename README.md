@@ -1,5 +1,5 @@
 
-<h1 align="center"><a href="https://cpvesta.ru">Vesta</a></h1>
+<h1 align="center"><a href="https://cpvesta.ru">Vesta CP for DEBIAN 10-13</a></h1>
 
 <div style="text-align:center">
 
