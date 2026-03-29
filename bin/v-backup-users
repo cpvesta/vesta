@@ -1,0 +1,128 @@
+#!/bin/bash
+# info: backup all users
+# options: NONE
+#
+# The function backups all system users.
+
+#----------------------------------------------------------#
+#                    Variable&Function                     #
+#----------------------------------------------------------#
+
+# Importing system environment  as we run this script
+# mostly by cron which not read it by itself
+source /etc/profile
+
+# Includes
+source $VESTA/func/main.sh
+source $VESTA/conf/vesta.conf
+
+scriptname="v-backup-users"
+for pid in $(pidof -x "$scriptname"); do
+    if [ $pid != $$ ]; then
+        active_seconds=$(ps -p $pid -o etimes=)
+        active_days=$(( active_seconds / 86400 ))
+        active_days_rounded=$(printf "%.0f" "$active_days")
+        if [ $active_days_rounded -gt 10 ]; then
+            echo "[$(date)] : $scriptname : Process is running for more than 10 days, killing it (active $active_days_rounded days)"
+            all_children=$(list_child_pids $pid)
+            pid_list=""
+            for child_pid in $all_children; do
+                pid_list="$pid_list $child_pid"
+            done
+            pid_list="$pid_list $pid"
+            echo "[$(date)] : $scriptname : Killing processes: $pid_list"
+            kill -9 $pid_list
+        else
+            echo "[$(date)] : $scriptname : Process is already running with PID $pid (active $active_days_rounded days)"
+            exit 1
+        fi
+    fi
+done
+
+
+ALLOW_MYSQL_REPAIR=1
+
+if [ $# -ge 1 ]; then
+    ALLOW_MYSQL_REPAIR=$1
+fi
+
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+log=$VESTA/log/backup.log
+last_log_error=$VESTA/log/last-backup-error.log
+
+# $BIN/v-check-vesta-license >/dev/null
+
+touch $log
+if [ ! -z "$NOTIFY_ADMIN_FULL_BACKUP" ]; then
+    mv $log $log-`date +"%Y-%m-%d--%H:%M:%S"`
+fi
+
+# Auto-repair all databases before backuping all accounts
+if [ $ALLOW_MYSQL_REPAIR -eq 1 ]; then
+    nice -n 19 ionice -c 3 mysqlrepair --all-databases --check --auto-repair >> $log 2>&1
+fi
+
+if [ -z "$BACKUP_SYSTEM" ]; then
+    exit
+fi
+FINAL_STATUS='OK'
+FINAL_CODE=0
+i_am_in_backup_all_users=1
+for user in $(grep '@' /etc/passwd |cut -f1 -d:); do
+    if [ ! -f "$VESTA/data/users/$user/user.conf" ]; then
+        continue;
+    fi
+    wait_for_backup_if_it_is_not_time_for_backup
+    check_suspend=$(grep "SUSPENDED='no'" $VESTA/data/users/$user/user.conf)
+    if [ ! -z "$check_suspend" ]; then
+        echo -e "================================" >> $log
+        echo -e "$user" >> $log
+        echo -e "--------------------------------\n" >> $log
+        i_am_in_backup_all_users=0
+        nice -n 19 ionice -c 3 $BIN/v-backup-user $user >> $log 2>&1
+        STATUS=$?
+        if [ $STATUS -ne 0 ]; then
+            FINAL_STATUS='CONTAINS ERRORS !!!'
+            FINAL_CODE=1
+            echo -e "=== Backup failed for user '$user' with status $STATUS\n" >> $log
+            tail -n 6 $log > $last_log_error
+        else
+            echo -e "=== Backup successful for user '$user'\n" >> $log
+        fi
+        i_am_in_backup_all_users=1
+        echo -e "\n--------------------------------\n\n" >> $log
+    fi
+done
+
+if [ $FINAL_CODE -eq 1 ]; then
+    touch /usr/local/vesta/data/df/backup-error.txt
+    if [ -f /usr/local/vesta/data/df/backup-success.txt ]; then
+        rm /usr/local/vesta/data/df/backup-success.txt >/dev/null 2>&1
+    fi
+else
+    touch /usr/local/vesta/data/df/backup-success.txt
+    if [ -f /usr/local/vesta/data/df/backup-error.txt ]; then
+        rm /usr/local/vesta/data/df/backup-error.txt >/dev/null 2>&1
+        rm $last_log_error >/dev/null 2>&1
+    fi
+fi
+
+if [ ! -z "$NOTIFY_ADMIN_FULL_BACKUP" ]; then
+    cat $log |$SENDMAIL -s "Full backup report for $HOSTNAME; status=$FINAL_STATUS" "$NOTIFY_ADMIN_FULL_BACKUP" 'yes'
+fi
+if [ ! -z "$NOTIFY_ADMIN_FULL_BACKUP2" ]; then
+    cat $log |$SENDMAIL -s "Full backup report for $HOSTNAME; status=$FINAL_STATUS" "$NOTIFY_ADMIN_FULL_BACKUP2" 'yes'
+fi
+
+#----------------------------------------------------------#
+#                       Vesta                              #
+#----------------------------------------------------------#
+
+# No Logging
+#log_event "$OK" "$ARGUMENTS"
+
+exit

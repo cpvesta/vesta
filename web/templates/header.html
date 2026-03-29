@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <title>myVesta - <?=__($TAB)?></title>
+  <link rel="stylesheet" href="/css/styles.min.css?<?=JS_LATEST_UPDATE?>">
+  <link type="text/css" href="/css/jquery-custom-dialogs.css" rel="stylesheet" />
+  <link href="/css/fonts/font_sans_pro.css" rel="stylesheet">
+  <link href="/css/fonts/font_lobster.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/fonts/font_awesome5.css">
+  <script>
+    //
+    //  GLOBAL SETTINGS
+    //
+    <?php
+        if (isset($_SESSION['user'])) $CURRENT_USER_FINAL=$_SESSION['user'];
+        if (isset($_SESSION['look']) && $_SESSION['look']!='') $CURRENT_USER_FINAL=$_SESSION['look'];
+        
+        $right_sidebar_right=0;
+        $content_margin_right=240;
+        $content_margin_right=240;
+        $to_top_right=285;
+        $to_shortcuts_right=330;
+        if (isset($_COOKIE['iolog']) && $_COOKIE['iolog']=='0') {
+            $right_sidebar_right=-200;
+            $content_margin_right=40;
+            $to_top_right=85;
+            $to_shortcuts_right=130;
+        }
+        
+        $GLOBALS['CURRENT_USER_FINAL']=$CURRENT_USER_FINAL;
+        $GLOBALS['right_sidebar_right']=$right_sidebar_right;
+        $GLOBALS['to_top_right']=$to_top_right;
+        $GLOBALS['to_shortcuts_right']=$to_shortcuts_right;
+    ?>
+    var GLOBAL = {};
+    GLOBAL.FTP_USER_PREFIX  = 'admin_';
+    GLOBAL.DB_USER_PREFIX   = 'admin_';
+    GLOBAL.DB_DBNAME_PREFIX = 'admin_';
+    GLOBAL.CURRENT_USER = '<?php if (isset($_SESSION['user'])) echo $_SESSION['user']; else echo ''; ?>';
+    GLOBAL.CURRENT_USER_LOOK = '<?php if (isset($_SESSION['look'])) echo $_SESSION['look']; else echo ''; ?>';
+    GLOBAL.CURRENT_USER_FINAL = '<?php if (isset($GLOBALS['CURRENT_USER_FINAL'])) echo $GLOBALS['CURRENT_USER_FINAL']; else echo ''; ?>';
+    GLOBAL.AJAX_URL = '';
+    GLOBAL.TOKEN = '<?php if (isset($_SESSION['token'])) echo $_SESSION['token']; else echo ''; ?>';
+  </script>
+  <style>
+    .l-content .l-center {margin-right: <?=$content_margin_right?>px}
+  </style>
+</head>
+<body class="body-<?=strtolower($TAB)?> lang-<?php if (isset($_SESSION['language'])) echo $_SESSION['language']; else echo 'en'; ?>">
+
+  <div id="floating-center-div" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50vw; max-width: 700px; background: #fff; z-index: 9998; box-shadow: 0 4px 32px rgba(0,0,0,0.6); border-radius: 8px; padding: 32px 24px; display: none;">
+    <div id="floating-center-div-right-close" style="position: absolute; top: 10px; right: 10px; cursor: pointer; color: #999;">
+      <i class="fas fa-times"></i>
+    </div>
+    <h1 id="floating-center-div-title" style="margin-top: 0;"></h1>
+    <div id="floating-center-div-content"></div>
+  </div>
+
+  <div id="confirm-div" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50vw; max-width: 400px; background: #fff; z-index: 9999; box-shadow: 0 4px 32px rgba(0,0,0,0.6); border-radius: 8px; padding: 32px 24px; display: none;">
+    <h1 id="confirm-div-title" style="margin-top: 0;"></h1>
+    <div id="confirm-div-content">
+    </div>
+
+    <div id="confirm-div-content-input" style="display: none; margin-top: 20px;">
+      <span id="confirm-div-content-input-label" class="ajax-label ajax-newline">Variable 1:</span>
+      <input id="confirm-div-content-input-variable" type="text" name="confirm-div-content-input-variable" value="value1" class="vst-input ajax-newline" data-element-style-begin="1" style="" data-element-style-end="1">
+    </div>
+
+    <div id="confirm-div-content-textarea" style="display: none; margin-top: 20px;">
+      <span id="confirm-div-content-textarea-label" class="ajax-label ajax-newline">Variable 1:</span>
+      <textarea id="confirm-div-content-textarea-variable" name="confirm-div-content-textarea-variable" class="vst-textinput ajax-newline" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" data-element-style-begin="1" style="width: 380px;" data-element-style-end="1"></textarea>
+    </div>
+
+    <div id="confirm-div-content-listbox" style="display: none; margin-top: 20px;">
+      <span id="confirm-div-content-listbox-label" class="ajax-label ajax-newline">Variable 1:</span>
+      <select id="confirm-div-content-listbox-variable" name="confirm-div-content-listbox-variable" class="vst-list ajax-newline" data-element-style-begin="1" style="width: 380px; background-position: -75px -604px;" data-element-style-end="1">
+      </select>
+    </div>
+
+    <div id="confirm-div-content-checkbox" style="display: none; margin-top: 20px;">
+      <label id="confirm-div-content-checkbox-label" class="ajax-label ajax-newline"><input id="confirm-div-content-checkbox-variable" name="confirm-div-content-checkbox-variable" type="checkbox" size="20" class="vst-checkbox" checked="yes" data-element-style-begin="1" style="display: inline-block;" data-element-style-end="1"> Variable 1</label>
+    </div>
+
+    <div id="confirm-div-buttons-confirm" style="display: none; justify-content: center; margin-top: 20px;">
+      <button id="confirm-div-button-yes" name="confirm-div-button-yes" value="Yes" class="button confirm" data-element-style-begin="1" style="margin-right: 10px;" data-element-style-end="1">Yes</button>
+      <button id="confirm-div-button-no" name="confirm-div-button-no" value="No" class="button cancel" data-element-style-begin="1" style="margin-left: 10px;" data-element-style-end="1">No</button>
+    </div>
+    <div id="confirm-div-buttons-notify" style="display: none; justify-content: center; margin-top: 20px;">
+      <button id="confirm-div-button-notify" class="button confirm" data-element-style-begin="1" style="margin-right: 10px; background-color: #2de95f;" autofocus data-element-style-end="1">OK</button>
+    </div>
+    <div id="confirm-div-button" style="display: none; justify-content: center; margin-top: 20px;">
+      <button id="confirm-div-button-variable" class="button confirm" name="confirm-div-button-variable" value="OK" data-element-style-begin="1" style="margin-right: 10px;" data-element-style-end="1">OK</button>
+    </div>
+    <div id="confirm-div-button-gray" style="display: none; justify-content: center; margin-top: 20px;">
+      <button id="confirm-div-button-gray-variable" class="button cancel" name="confirm-div-button-gray-variable" value="Cancel" data-element-style-begin="1" style="margin-right: 10px;" data-element-style-end="1">Cancel</button>
+    </div>
+  </div>
