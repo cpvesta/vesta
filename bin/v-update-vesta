@@ -1,8 +1,8 @@
 #!/bin/bash
-# info: Get the very latest build of myVesta
+# info: Get the very latest build of Vesta
 # options: NONE
 #
-# The function is downloading the very latest build of myVesta
+# The function is downloading the very latest build of Vesta
 
 #----------------------------------------------------------#
 #           Verifications & Variable & Function            #
@@ -29,7 +29,7 @@ apt-get install --reinstall vesta
 #                       Vesta                              #
 #----------------------------------------------------------#
 
-echo "=== myVesta updated ==="
+echo "=== Vesta updated ==="
 
 log_event "$OK" "$ARGUMENTS"
 
