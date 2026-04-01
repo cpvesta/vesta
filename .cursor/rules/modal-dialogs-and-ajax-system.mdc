@@ -1,6 +1,6 @@
-# myVesta Modal Dialogs and AJAX Communication System
+# Vesta Modal Dialogs and AJAX Communication System
 
-This rule defines the complete system for creating modal dialogs (Floating Div forms) and AJAX communication in the myVesta web interface. This system allows you to create button actions like "Install WordPress" that open modal dialogs and handle multi-step AJAX workflows.
+This rule defines the complete system for creating modal dialogs (Floating Div forms) and AJAX communication in the Vesta web interface. This system allows you to create button actions like "Install WordPress" that open modal dialogs and handle multi-step AJAX workflows.
 
 ## System Architecture Overview
 
@@ -19,7 +19,7 @@ The modal dialogs system consists of:
 3. **Security Layer**:
    - CSRF token validation in [web/ajax/authentication_check.php](mdc:web/ajax/authentication_check.php)
    - User authentication check in [web/ajax/authentication_check.php](mdc:web/ajax/authentication_check.php) via `include($_SERVER['DOCUMENT_ROOT']."/inc/main.php");`
-   - Domain ownership verification in [web/ajax/authentication_check.php](mdc:web/ajax/authentication_check.php): both `$_REQUEST['dataset']['domain']` and `$_REQUEST['domain']` will be checked to see if they belong to `$myvesta_logged_user`
+   - Domain ownership verification in [web/ajax/authentication_check.php](mdc:web/ajax/authentication_check.php): both `$_REQUEST['dataset']['domain']` and `$_REQUEST['domain']` will be checked to see if they belong to `$vesta_logged_user`
    - Required parameter validation in [web/ajax/authentication_check.php](mdc:web/ajax/authentication_check.php) via optional `$authentication_check_required_param`
    - Compare if optional `$authentication_check_match_user` variable is equal to logged user in [web/ajax/authentication_check.php](mdc:web/ajax/authentication_check.php)
 
