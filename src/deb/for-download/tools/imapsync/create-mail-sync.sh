@@ -51,7 +51,7 @@ euser=$(echo $EMAIL | cut -d '@' -f 1)
 domain=$(echo $EMAIL | cut -d '@' -f 2)
 user=$(/usr/local/vesta/bin/v-search-domain-owner $domain)
 if [ "$user" != "" ]; then
-    echo "=== Email '$EMAIL' has username email part '$euser', domain is '$domain', and belongs to myVesta account: $user"
+    echo "=== Email '$EMAIL' has username email part '$euser', domain is '$domain', and belongs to Vesta account: $user"
     if [ ! -d "/home/$user/mail/$domain" ]; then
         echo "======= Creating '$domail' in MAIL section"
         /usr/local/vesta/bin/v-add-mail-domain "$user" "$domain"
