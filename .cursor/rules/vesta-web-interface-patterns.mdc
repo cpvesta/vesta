@@ -1,15 +1,15 @@
 ---
 alwaysApply: true
-description: Patterns and structure for myVesta web interface PHP scripts
+description: Patterns and structure for Vesta web interface PHP scripts
 ---
 
-# myVesta Web Interface PHP Script Patterns
+# Vesta Web Interface PHP Script Patterns
 
-This rule defines the standard patterns and structure for myVesta web interface PHP scripts located in the [web/](mdc:web/) folder. All scripts follow consistent patterns for handling requests, validation, and rendering.
+This rule defines the standard patterns and structure for Vesta web interface PHP scripts located in the [web/](mdc:web/) folder. All scripts follow consistent patterns for handling requests, validation, and rendering.
 
 ## Standard Script Structure
 
-Every myVesta web interface script follows this exact structure:
+Every Vesta web interface script follows this exact structure:
 
 ### 1. Header Section
 ```php
