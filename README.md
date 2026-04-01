@@ -28,13 +28,13 @@
 Just download the installation script:
 
 ```shell
-curl -O http://c.cpvesta.ru/vst-install-debian.sh
+curl -O http://cpvesta.ru/install/vst-install.sh
 ```
 
 And then:
 
 ```shell
-bash vst-install-debian.sh
+bash vst-install.sh
 ```
 
 
