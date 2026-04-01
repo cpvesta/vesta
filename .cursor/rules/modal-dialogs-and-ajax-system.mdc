@@ -222,7 +222,7 @@ include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");
 2. Validates CSRF token (`$_POST['token']` vs `$_SESSION['token']`)
 3. Validates required parameters exist
 4. Verifies domain ownership if domain parameter exists
-5. Sets `$myvesta_logged_user` variable (handles user impersonation)
+5. Sets `$vesta_logged_user` variable (handles user impersonation)
 6. Dies with error message if any check fails
 
 **Setting Required Parameters**:
@@ -243,7 +243,7 @@ $authentication_check_match_user = 'admin';
 ```
 
 **Available Variables After Include**:
-- `$myvesta_logged_user` - Current user (handles look/impersonation)
+- `$vesta_logged_user` - Current user (handles look/impersonation)
 - `$domain` - Domain name if required
 - `$authentication_check_loaded` - Flag to check if included
 
@@ -255,12 +255,12 @@ Include after authentication check:
 include($_SERVER['DOCUMENT_ROOT']."/inc/form-elements.php");
 ```
 
-#### myvesta_open_form($action = '')
+#### vesta_open_form($action = '')
 
 Opens a form with CSRF token.
 
 ```php
-echo myvesta_open_form('/ajax/web/router.php'); // send form to router.php
+echo vesta_open_form('/ajax/web/router.php'); // send form to router.php
 ```
 
 **Parameters**:
@@ -268,32 +268,32 @@ echo myvesta_open_form('/ajax/web/router.php'); // send form to router.php
 
 **Returns**: Opening form tag with hidden token field
 
-#### myvesta_close_form()
+#### vesta_close_form()
 
 Closes the form.
 
 ```php
-echo myvesta_close_form();
+echo vesta_close_form();
 ```
 
 **Returns**: Closing form tag
 
-#### myvesta_get_hidden_fields($hidden_fields = array())
+#### vesta_get_hidden_fields($hidden_fields = array())
 
 Preserves dataset and adds additional hidden fields.
 
 ```php
 // Preserve all dataset fields
-echo myvesta_get_hidden_fields();
+echo vesta_get_hidden_fields();
 
 // Preserve dataset + add custom fields
-echo myvesta_get_hidden_fields(array(
+echo vesta_get_hidden_fields(array(
     'wordpress_install' => '1',
     'custom_field' => 'value'
 ));
 
 // Override dataset field
-echo myvesta_get_hidden_fields(array(
+echo vesta_get_hidden_fields(array(
     'dataset' => array('domain' => 'newdomain.com')
 ));
 ```
@@ -303,7 +303,7 @@ echo myvesta_get_hidden_fields(array(
 
 **Returns**: HTML hidden input fields
 
-#### myvesta_get_element($element_name, $label, $variable_name, $variable_value, $selected_value, $style, $replace_or_add_style)
+#### vesta_get_element($element_name, $label, $variable_name, $variable_value, $selected_value, $style, $replace_or_add_style)
 
 Creates form elements from templates in header.html.
 
@@ -311,7 +311,7 @@ Creates form elements from templates in header.html.
 
 ##### Input Field
 ```php
-echo myvesta_get_element(
+echo vesta_get_element(
     'input',                    // Element type
     'Username:',                // Label text
     'username',                 // Field name
@@ -324,7 +324,7 @@ echo myvesta_get_element(
 
 ##### Textarea
 ```php
-echo myvesta_get_element(
+echo vesta_get_element(
     'textarea',
     'Description:',
     'description',
@@ -336,7 +336,7 @@ echo myvesta_get_element(
 
 ##### Listbox (Dropdown)
 ```php
-echo myvesta_get_element(
+echo vesta_get_element(
     'listbox',
     'Select Template:',
     'template',
@@ -352,7 +352,7 @@ echo myvesta_get_element(
 
 ##### Checkbox
 ```php
-echo myvesta_get_element(
+echo vesta_get_element(
     'checkbox',
     'Enable SSL',
     'ssl_enabled',
@@ -364,7 +364,7 @@ echo myvesta_get_element(
 
 ##### Single Button
 ```php
-echo myvesta_get_element(
+echo vesta_get_element(
     'button',
     '',                         // Label not used for button
     'wordpress_install',        // Button name
@@ -377,7 +377,7 @@ echo myvesta_get_element(
 
 ##### Confirmation Buttons (Yes/No)
 ```php
-echo myvesta_get_element(
+echo vesta_get_element(
     'buttons_confirm',
     '',
     'Yes/No',                   // Button names (slash-separated)
@@ -396,13 +396,13 @@ echo myvesta_get_element(
 - `$style` - CSS style string
 - `$replace_or_add_style` - 'replace' or 'add' (default: 'replace')
 
-#### myvesta_get_disabled_textarea($value, $style, $copy_to_clipboard, $close_button, $watch_spawned_ajax_process, $user, $hash)
+#### vesta_get_disabled_textarea($value, $style, $copy_to_clipboard, $close_button, $watch_spawned_ajax_process, $user, $hash)
 
 Creates a disabled textarea with optional copy-to-clipboard and real-time process watching.
 
 ```php
 // Simple output display
-echo myvesta_get_disabled_textarea(
+echo vesta_get_disabled_textarea(
     'Command output here',
     '',                         // Default style
     true,                       // Show copy button
@@ -411,13 +411,13 @@ echo myvesta_get_disabled_textarea(
 );
 
 // Watch spawned process (for long-running tasks)
-echo myvesta_get_disabled_textarea(
+echo vesta_get_disabled_textarea(
     '',                         // Initially empty
     '',
     true,                       // Show copy button
     true,                       // Show close button
     true,                       // Enable process watching
-    $myvesta_logged_user,
+    $vesta_logged_user,
     $hash                       // Process hash from v-spawn-ajax-process
 );
 ```
@@ -432,13 +432,13 @@ echo myvesta_get_disabled_textarea(
 
 **Returns**: Textarea HTML + optional buttons + optional JavaScript
 
-#### myvesta_hide_floating_div()
+#### vesta_hide_floating_div()
 
 Closes the modal dialog and exits script.
 
 ```php
 if (isset($_POST['No'])) {
-    myvesta_hide_floating_div();
+    vesta_hide_floating_div();
 }
 ```
 
@@ -464,10 +464,10 @@ include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");
 include($_SERVER['DOCUMENT_ROOT']."/inc/form-elements.php");
 
 // Display form
-echo myvesta_open_form('/ajax/web/wordpress/router.php'); // send form to router.php
-echo myvesta_get_hidden_fields();
-echo myvesta_get_element('button_gray', '', 'wordpress_install', __('Install WordPress'), null, 'width: 200px;', 'add');
-echo myvesta_close_form();
+echo vesta_open_form('/ajax/web/wordpress/router.php'); // send form to router.php
+echo vesta_get_hidden_fields();
+echo vesta_get_element('button_gray', '', 'wordpress_install', __('Install WordPress'), null, 'width: 200px;', 'add');
+echo vesta_close_form();
 
 exit;
 ?>
@@ -539,20 +539,20 @@ $run_action = false;
 if ($is_empty_public_html == '0') {
     // Directory not empty, ask for confirmation
     if (!isset($_POST['Yes']) && !isset($_POST['No'])) {
-        echo myvesta_open_form('/ajax/web/wordpress/router.php'); // send form to router.php
+        echo vesta_open_form('/ajax/web/wordpress/router.php'); // send form to router.php
         echo __('There are previously files in the domain directory').'.<br />';
         echo __('Are you sure you want to override them').'?<br /><br />';
-        echo myvesta_get_hidden_fields(array(
+        echo vesta_get_hidden_fields(array(
             'wordpress_install' => '1' // action for router.php
             )); // Preserve action
-        echo myvesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
-        echo myvesta_close_form();
+        echo vesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
+        echo vesta_close_form();
         exit;
     } else {
         if (isset($_POST['Yes'])) {
             $run_action = true;
         } elseif (isset($_POST['No'])) {
-            myvesta_hide_floating_div();
+            vesta_hide_floating_div();
         }
     }
 }
@@ -566,12 +566,12 @@ if ($run_action) {
     $output='';
     $exec_output='';
     // Always use escapeshellarg for all arguments to avoid shell injection
-    $cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($myvesta_logged_user)." /usr/local/vesta/bin/v-install-wordpress ".escapeshellarg($domain);
+    $cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($vesta_logged_user)." /usr/local/vesta/bin/v-install-wordpress ".escapeshellarg($domain);
     $exec_output = shell_exec($cmd);
     $output=__('WordPress installation output').':';
     echo '<b>'.$output.'</b><br /><br />';
     $hash = trim($exec_output);
-    echo myvesta_get_disabled_textarea('', '', true, true, true, $myvesta_logged_user, $hash);
+    echo vesta_get_disabled_textarea('', '', true, true, true, $vesta_logged_user, $hash);
     exit;
 }
 ?>
@@ -587,8 +587,8 @@ if ($run_action) {
 **Key Patterns**:
 1. **Check authentication**: `include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");`
 2. **Conditional confirmation**: Ask for confirmation if needed
-3. **Preserve form state**: Use `myvesta_get_hidden_fields()` to maintain action context
-4. **Long-running tasks**: Use `v-spawn-ajax-process` + `myvesta_get_disabled_textarea()` with watching enabled
+3. **Preserve form state**: Use `vesta_get_hidden_fields()` to maintain action context
+4. **Long-running tasks**: Use `v-spawn-ajax-process` + `vesta_get_disabled_textarea()` with watching enabled
 
 ## Security Best Practices
 
@@ -602,7 +602,7 @@ if ($run_action) {
 - Set `$authentication_check_this_is_nested_script = true;` if PHP script is sub-script of previously loaded PHP script
 - Set `$authentication_check_required_param['dataset']['important_POST_field_or_variable'] = true`
 - Add `include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");` so authentication_check.php can verify ownership
-- If an field includes another domain in the action, check ownership of that domain as well: `$domain2 = $_POST['domain2']; check_if_domain_is_owned_by_user($domain2, $myvesta_logged_user);`
+- If an field includes another domain in the action, check ownership of that domain as well: `$domain2 = $_POST['domain2']; check_if_domain_is_owned_by_user($domain2, $vesta_logged_user);`
 - These steps will prevent users from accessing other users' domains
 
 ### 3. Required Parameters
@@ -611,7 +611,7 @@ if ($run_action) {
 - Helps prevent undefined variable errors
 
 ### 4. User Impersonation
-- Use `$myvesta_logged_user` instead of `$_SESSION['user']`
+- Use `$vesta_logged_user` instead of `$_SESSION['user']`
 - Handles admin impersonating other users
 - Always use for command execution
 
@@ -654,10 +654,10 @@ include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");
 // Form elements include
 include($_SERVER['DOCUMENT_ROOT']."/inc/form-elements.php");
 
-echo myvesta_open_form('/ajax/database/router.php'); // send form to router.php
-echo myvesta_get_hidden_fields();
-echo myvesta_get_element('button_gray', '', 'database_backup', __('Backup'), null, 'width: 200px;', 'add');
-echo myvesta_close_form();
+echo vesta_open_form('/ajax/database/router.php'); // send form to router.php
+echo vesta_get_hidden_fields();
+echo vesta_get_element('button_gray', '', 'database_backup', __('Backup'), null, 'width: 200px;', 'add');
+echo vesta_close_form();
 exit;
 ?>
 ```
@@ -705,12 +705,12 @@ $database_name = $_REQUEST['dataset']['database_name'];
 $output='';
 $exec_output='';
 // Always use escapeshellarg for all arguments to avoid shell injection
-$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($myvesta_logged_user)." /usr/local/vesta/bin/v-backup-database ".escapeshellarg($myvesta_logged_user)." ".escapeshellarg($database_name);
+$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($vesta_logged_user)." /usr/local/vesta/bin/v-backup-database ".escapeshellarg($vesta_logged_user)." ".escapeshellarg($database_name);
 $exec_output = shell_exec($cmd);
 $output=__('Database dump output').':';
 echo '<b>'.$output.'</b><br /><br />';
 $hash = trim($exec_output);
-echo myvesta_get_disabled_textarea('', '', true, true, true, $myvesta_logged_user, $hash);
+echo vesta_get_disabled_textarea('', '', true, true, true, $vesta_logged_user, $hash);
 exit;
 ?>
 ```
@@ -730,10 +730,10 @@ include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");
 // Form elements include
 include($_SERVER['DOCUMENT_ROOT']."/inc/form-elements.php");
 
-echo myvesta_open_form('/ajax/web/subdomain/router.php'); // send form to router.php
-echo myvesta_get_hidden_fields();
-echo myvesta_get_element('button_gray', '', 'subdomain_create_step1', __('Create subdomain'), null, 'width: 200px;', 'add');
-echo myvesta_close_form();
+echo vesta_open_form('/ajax/web/subdomain/router.php'); // send form to router.php
+echo vesta_get_hidden_fields();
+echo vesta_get_element('button_gray', '', 'subdomain_create_step1', __('Create subdomain'), null, 'width: 200px;', 'add');
+echo vesta_close_form();
 exit;
 ?>
 ```
@@ -780,12 +780,12 @@ $authentication_check_this_is_nested_script = true;
 $authentication_check_required_param['dataset']['domain'] = true;
 include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");
 
-echo myvesta_open_form('/ajax/web/subdomain/router.php'); // send form to router.php
+echo vesta_open_form('/ajax/web/subdomain/router.php'); // send form to router.php
 echo __('Create subdomain for domain').': <b>'.$domain.'</b><br /><br />';
-echo myvesta_get_hidden_fields();
-echo myvesta_get_element('input', __('Subdomain name:'), 'subdomain', '', null, 'width: 300px;');
-echo myvesta_get_element('button', '', 'subdomain_create_step2', __('Create subdomain'), null, 'width: 200px;', 'add');
-echo myvesta_close_form();
+echo vesta_get_hidden_fields();
+echo vesta_get_element('input', __('Subdomain name:'), 'subdomain', '', null, 'width: 300px;');
+echo vesta_get_element('button', '', 'subdomain_create_step2', __('Create subdomain'), null, 'width: 200px;', 'add');
+echo vesta_close_form();
 exit;
 ?>
 ```
@@ -814,25 +814,25 @@ if (empty($subdomain)) {
 
 // Ask for confirmation
 if (!isset($_POST['Yes']) && !isset($_POST['No'])) {
-    echo myvesta_open_form('/ajax/web/subdomain/router.php'); // send form to router.php
+    echo vesta_open_form('/ajax/web/subdomain/router.php'); // send form to router.php
     echo __('Create subdomain').': <b>'.$subdomain.'.'.$domain.'</b>?<br /><br />';
-    echo myvesta_get_hidden_fields(array(
+    echo vesta_get_hidden_fields(array(
         'subdomain_create_step2' => '1',  // action for router.php
         'subdomain' => $subdomain         // repeating field from step 1
     ));
-    echo myvesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
-    echo myvesta_close_form();
+    echo vesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
+    echo vesta_close_form();
     exit;
 }
 
 if (isset($_POST['No'])) {
-    myvesta_hide_floating_div();
+    vesta_hide_floating_div();
 }
 
 if (isset($_POST['Yes'])) {
     // Execute command
     // Always use escapeshellarg for all arguments to avoid shell injection
-    $cmd = VESTA_CMD."v-add-web-domain-alias ".escapeshellarg($myvesta_logged_user)." ".escapeshellarg($domain)." ".escapeshellarg($subdomain);
+    $cmd = VESTA_CMD."v-add-web-domain-alias ".escapeshellarg($vesta_logged_user)." ".escapeshellarg($domain)." ".escapeshellarg($subdomain);
     exec($cmd, $output, $return_var);
     
     if ($return_var == 0) {
@@ -867,7 +867,7 @@ $is_wordpress_installed=exec(VESTA_CMD."v-check-if-wordpress-is-installed ".esca
 if ($is_wordpress_installed == '0') {
     // WordPress is not installed
     echo __('The WordPress is not installed').'.<br /><br />';
-    echo myvesta_get_close_button();
+    echo vesta_get_close_button();
     exit;
 }
 
@@ -877,7 +877,7 @@ $is_wordpress_locked=exec(VESTA_CMD."v-check-if-wordpress-is-locked ".escapeshel
 if ($is_wordpress_locked=='1') {
     // WordPress is locked
     echo __('The WordPress is already locked').'.<br /><br />';
-    echo myvesta_get_close_button();
+    echo vesta_get_close_button();
     exit;
 }
 
@@ -885,12 +885,12 @@ if ($is_wordpress_locked=='1') {
 $output='';
 $exec_output='';
 // Always use escapeshellarg for all arguments to avoid shell injection
-$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($myvesta_logged_user)." /usr/local/vesta/bin/v-lock-wordpress ".escapeshellarg($domain);
+$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($vesta_logged_user)." /usr/local/vesta/bin/v-lock-wordpress ".escapeshellarg($domain);
 $exec_output = shell_exec($cmd);
 $output=__('WordPress locking output').':';
 echo '<b>'.$output.'</b><br /><br />';
 $hash = trim($exec_output);
-echo myvesta_get_disabled_textarea('', '', false, true, true, $myvesta_logged_user, $hash, 100);
+echo vesta_get_disabled_textarea('', '', false, true, true, $vesta_logged_user, $hash, 100);
 exit;
 ```
 
@@ -966,32 +966,32 @@ include($_SERVER['DOCUMENT_ROOT']."/ajax/include_authentication_check.php");
 ### 3. Not using the PHP escapeshellarg(...) function for command arguments that will be executed with exec(...) or shell_exec(...)
 **Wrong**:
 ```php
-$cmd = VESTA_CMD."v-spawn-ajax-process $myvesta_logged_user /usr/local/vesta/bin/v-install-wordpress $domain";
+$cmd = VESTA_CMD."v-spawn-ajax-process $vesta_logged_user /usr/local/vesta/bin/v-install-wordpress $domain";
 $exec_output = shell_exec($cmd);
 ```
 
 **Correct**:
 ```php
-$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($myvesta_logged_user)." /usr/local/vesta/bin/v-install-wordpress ".escapeshellarg($domain);
+$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($vesta_logged_user)." /usr/local/vesta/bin/v-install-wordpress ".escapeshellarg($domain);
 $exec_output = shell_exec($cmd);
 ```
 
 ### 4. Not Preserving Hidden Fields in Confirmation Dialogs
 **Wrong**:
 ```php
-echo myvesta_open_form('/ajax/web/wordpress/router.php');
-echo myvesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
-echo myvesta_close_form();
+echo vesta_open_form('/ajax/web/wordpress/router.php');
+echo vesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
+echo vesta_close_form();
 ```
 
 **Correct**:
 ```php
-echo myvesta_open_form('/ajax/web/wordpress/router.php'); // send form to router.php
-echo myvesta_get_hidden_fields(array(
+echo vesta_open_form('/ajax/web/wordpress/router.php'); // send form to router.php
+echo vesta_get_hidden_fields(array(
     'wordpress_install' => '1' // action for router.php
     ));  // Preserve action
-echo myvesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
-echo myvesta_close_form();
+echo vesta_get_element('buttons_confirm', '', 'Yes/No', __('Yes').'/'.__('No'));
+echo vesta_close_form();
 ```
 
 ### 5. Using Wrong User Variable
@@ -1002,7 +1002,7 @@ $cmd = VESTA_CMD."v-delete-web-domain ".escapeshellarg($_POST'user'])." ".escape
 
 **Correct**:
 ```php
-$cmd = VESTA_CMD."v-delete-web-domain ".escapeshellarg($myvesta_logged_user)." ".escapeshellarg($domain);
+$cmd = VESTA_CMD."v-delete-web-domain ".escapeshellarg($vesta_logged_user)." ".escapeshellarg($domain);
 ```
 
 ### 6. Forgetting to Exit After Output
@@ -1023,13 +1023,13 @@ exit;
 ### 1. Use Consistent Button Styles
 ```php
 // First action
-echo myvesta_get_element('button_gray', '', 'action_name_for_install', __('Install'), null, 'width: 200px;', 'add');
+echo vesta_get_element('button_gray', '', 'action_name_for_install', __('Install'), null, 'width: 200px;', 'add');
 
 // Second action
-echo myvesta_get_element('button_gray', '', 'action_name_for_update', __('Update'), null, 'width: 200px;', 'add');
+echo vesta_get_element('button_gray', '', 'action_name_for_update', __('Update'), null, 'width: 200px;', 'add');
 
 // Third action
-echo myvesta_get_element('button_gray', '', 'action_name_for_delete', __('Delete'), null, 'width: 200px;', 'add');
+echo vesta_get_element('button_gray', '', 'action_name_for_delete', __('Delete'), null, 'width: 200px;', 'add');
 ```
 
 ### 2. Show Clear Loading States
@@ -1092,8 +1092,8 @@ When creating a new button action:
 - [ ] actions/execute.php as nested sub-script set `$authentication_check_this_is_nested_script = true;`
 - [ ] actions/execute.php set `$authentication_check_required_param['dataset']['important_POST_field_or_variable'] = true;`
 - [ ] actions/execute.php includes `include_authentication_check.php`
-- [ ] actions/execute.php runs shell commands like `$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($myvesta_logged_user)." /usr/local/vesta/bin/v-install-wordpress ".escapeshellarg($domain);`
-- [ ] Using `$myvesta_logged_user` instead of `$user`
+- [ ] actions/execute.php runs shell commands like `$cmd = VESTA_CMD."v-spawn-ajax-process ".escapeshellarg($vesta_logged_user)." /usr/local/vesta/bin/v-install-wordpress ".escapeshellarg($domain);`
+- [ ] Using `$vesta_logged_user` instead of `$user`
 - [ ] All scripts end with `exit;`
 - [ ] Always use `escapeshellarg($variable)` for all arguments to avoid shell injection
 - [ ] Long-running tasks use `v-spawn-ajax-process`
