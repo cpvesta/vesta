@@ -1,15 +1,15 @@
 ---
 alwaysApply: true
-description: Coding style and structure guidelines for myVesta bash scripts in the bin/ folder
+description: Coding style and structure guidelines for Vesta bash scripts in the bin/ folder
 ---
 
-# myVesta Script Structure and Coding Style
+# Vesta Script Structure and Coding Style
 
-This rule defines the standard structure and coding patterns for myVesta bash scripts located in the [bin/](mdc:bin/) folder. All scripts follow a consistent four-section structure with specific validation and logging patterns.
+This rule defines the standard structure and coding patterns for Vesta bash scripts located in the [bin/](mdc:bin/) folder. All scripts follow a consistent four-section structure with specific validation and logging patterns.
 
 ## Standard Script Structure
 
-Every myVesta script follows this exact four-section structure:
+Every Vesta script follows this exact four-section structure:
 
 ### 1. Header Section
 ```bash
