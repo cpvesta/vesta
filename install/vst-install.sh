@@ -1,5 +1,5 @@
 #!/bin/bash
-# myVesta installation wrapper
+# Vesta installation wrapper
 # http://cpvesta.ru
 
 #
