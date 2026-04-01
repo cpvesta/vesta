@@ -444,8 +444,8 @@ Version 0.9.8-26-5 [2020-02-10]
 ==================================================
 * [Security] sudoers fix for Debian10
 * [Feature] [Script that will migrate your site from http to https, replacing http to https URLs in database](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/v-migrate-site-to-https)
-* [Feature] [Cloning script that will copy the whole site from one domain to another (sub)domain](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/v-clone-website)
-* [Feature] [Script that will install multiple PHP versions on your server](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/multi-php-install.sh)
+* [Feature] [Cloning script that will copy the whole site from one domain to another (sub)domain](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/v-clone-website)
+* [Feature] [Script that will install multiple PHP versions on your server](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/multi-php-install.sh)
 * [Bugfix] Roundcube force https
 * [Bugfix] Exim compatibility with Loopia for Debian10
 
@@ -484,19 +484,19 @@ Version 0.9.8-26 [2019-09-28]
 Older versions
 ==================================================
 * Support for Debian 10 (previous Debian releases are also supported, but Debian 10 is recommended)
-* [Support for multi-PHP versions](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/multi-php-install.sh)
-* You can limit the maximum number of sent emails (per hour) [per mail account](https://github.com/myvesta/vesta/blob/master/install/debian/10/exim/exim4.conf.template#L105-L106) and [per hosting account](https://github.com/myvesta/vesta/blob/master/install/debian/10/exim/exim4.conf.template#L65-L66), preventing hijacking of email accounts and preventing PHP malware scripts to send spam.
-* You can see [what PHP scripts are sending emails](https://github.com/myvesta/vesta/blob/master/install/debian/10/php/php7.3-dedi.patch#L50), when and to whom
-* You can completely "lock" myVesta so it can be accessed only via **secret URL**, for example https://serverhost:8083/?MY-SECRET-URL
-    + Literally no PHP scripts will be alive on your hosting panel (won't be able to get executed), unless you access the hosting panel with secret URL parameter. Thus, when it happens that, let's say, some zero-day exploit pops up - attackers won't be able to access it without knowing your secret URL - PHP scripts from myVesta
-* We [disabled dangerous PHP functions](https://github.com/myvesta/vesta/blob/master/install/debian/10/php/php7.3-dedi.patch#L9) in php.ini, so even if, for example, your customer's CMS gets compromised, hacker will not be able to execute shell scripts from within PHP.
+* [Support for multi-PHP versions](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/multi-php-install.sh)
+* You can limit the maximum number of sent emails (per hour) [per mail account](https://github.com/cpvesta/vesta/blob/master/install/debian/10/exim/exim4.conf.template#L105-L106) and [per hosting account](https://github.com/cpvesta/vesta/blob/master/install/debian/10/exim/exim4.conf.template#L65-L66), preventing hijacking of email accounts and preventing PHP malware scripts to send spam.
+* You can see [what PHP scripts are sending emails](https://github.com/cpvesta/vesta/blob/master/install/debian/10/php/php7.3-dedi.patch#L50), when and to whom
+* You can completely "lock" Vesta so it can be accessed only via **secret URL**, for example https://serverhost:8083/?MY-SECRET-URL
+    + Literally no PHP scripts will be alive on your hosting panel (won't be able to get executed), unless you access the hosting panel with secret URL parameter. Thus, when it happens that, let's say, some zero-day exploit pops up - attackers won't be able to access it without knowing your secret URL - PHP scripts from Vesta
+* We [disabled dangerous PHP functions](https://github.com/cpvesta/vesta/blob/master/install/debian/10/php/php7.3-dedi.patch#L9) in php.ini, so even if, for example, your customer's CMS gets compromised, hacker will not be able to execute shell scripts from within PHP.
 * Apache is fully switched to mpm_event mode, while PHP is running in PHP-FPM mode, which is the most stable PHP-stack solution
     + OPCache is turned on by default
 * Auto-generating LetsEncrypt SSL for server hostname (signed SSL for Vesta 8083 port, for dovecot (IMAP & POP3) and for Exim (SMTP))
 * You can change Vesta port during installation or later using one command line: **v-change-vesta-port [number]**
 * Backup will run with lowest priority (to avoid load on server), and can be configured to run only by night (and to stop on the morning and continue next night)
 * You can compile Vesta binaries by yourself
-* [Script that will convert Vesta to myVesta](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/convert-vesta-to-myvesta.sh)
-* [Wordpress installer in one second](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/create_wp_https)
-* [Script for importing cPanel backups to Vesta](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/cpanel-import.sh)
-* [Official Vesta Softaculous installer](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/install-softaculous.sh)
+* [Script that will convert Vesta to CPVesta](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/convert-vesta-to-cpvesta.sh)
+* [Wordpress installer in one second](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/create_wp_https)
+* [Script for importing cPanel backups to Vesta](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/cpanel-import.sh)
+* [Official Vesta Softaculous installer](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/install-softaculous.sh)
