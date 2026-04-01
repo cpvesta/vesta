@@ -19,7 +19,7 @@ Version 0.9.9-0-16 [2026-03-01]
 * Improvement: v-install-wordpress: Fix check for $NO_PROMPT and suppress output for grep | sed
 * Bugfix: v-install-wordpress: Use MAX_DBUSER_LEN=32 if MySQL 8 installed
 * Enhance v-df-snapshot-diff and v-df-snapshot-make scripts to use /dev/shm for temporary storage when the root partition is low on space
-* Improvement (as temporary solution): Suspend 'v-fix-website-permissions-for-all-websites-only-php' cron during myVesta install
+* Improvement (as temporary solution): Suspend 'v-fix-website-permissions-for-all-websites-only-php' cron during Vesta install
 
 Version 0.9.9-0-15 [2025-12-19]
 ==================================================
@@ -47,10 +47,10 @@ Version 0.9.9-0-13 [2025-08-15]
 * Security: Adding ProFTPD jail rule to Fail2Ban
 * Introducing: v-make-main-apache-log - making one log file for PHP requests for all websites
 * Security: Introducing a new command: v-fix-php-ini-disable-functions
-* Improvement: Introducing myVesta rules for SpamAssassin (enhancing spam filtering)
+* Improvement: Introducing Vesta rules for SpamAssassin (enhancing spam filtering)
 * Improvement: When deleting a domain, also delete the database if the domain has a database
 * Bugfix: Removing temporary Docker container network interfaces from RRD
-* Introducing v-run-wp-cli-myvesta that knows the correct terminal width
+* Introducing v-run-wp-cli-vesta that knows the correct terminal width
 * Introducing a new command: v-cd-www alias for v-change-dir-www
 * Introducing a new command: v-clear-fail2ban
 * Introducing a new command: v-get-dns-config (to print zone file in bind9 format)
@@ -59,7 +59,7 @@ Version 0.9.9-0-13 [2025-08-15]
 * Security: Enhance package validation, in v-change-user-package 'eval' replaced with 'parse_object_kv_list_non_eval'
 * Improvement: Replacing all WordPress scripts to use 'v-run-wp-cli' instead of 'wp'
 * Improvement: v-install-wordpress: Almost always use https
-* Improvement: Skip the prompt to continue during myVesta installation if the administrator has set all required variables  in the command line
+* Improvement: Skip the prompt to continue during Vesta installation if the administrator has set all required variables  in the command line
 * Security: Jailing v-run-wp-cli (running WP-CLI as user, added open_basedir, disabling shell_exec() and other dangerous PHP functions)
 * Security: v-commander: removing the ability to set a root password
 * Bugfix: DKIM record deletion command in v-delete-mail-domain-dkim script
@@ -84,7 +84,7 @@ Version 0.9.9-0-13 [2025-08-15]
 * Improvement: Added functions to check if a domain or user is unsuspended in main.sh
 * Introducing a new command: v-update-document-errors-files
 * Improvement: new v-backup-user-now command does backup even if the system Load Average is above the limit, or the administrator configured backups to perform only at night
-* Improvement: v-install-wp-cli and v-install-wp-cli-myvesta - automatically updates if wp-cli is 30 days old
+* Improvement: v-install-wp-cli and v-install-wp-cli-vesta - automatically updates if wp-cli is 30 days old
 * Bugfix: Check for SSL certificate existence before deleting web domain SSL in v-install-unsigned-ssl
 * Improvement: v-install-wordpress: avoid changing nginx proxy template in apache-less variant
 * Added to .gitignore excludes for 'data', 'conf', and 'log' folders
@@ -143,7 +143,7 @@ Version 0.9.8-26-60 [2023-02-12]
 ==================================================
 * New script: v-commander (useful for maintaining the server)
 * New script: v-activate-rocket-nginx (serve WP-Rocket cache directly from nginx)
-* New script: v-update-myvesta (get the very latest build of myVesta)
+* New script: v-update-vesta (get the very latest build of Vesta)
 * v-clone-website: By default cloning to database: user_domain_com (instead of cloning to database: user_old_db_migrated)
 * Many minor bugfixes
 
@@ -288,11 +288,11 @@ Version 0.9.8-26-33 [2020-08-16]
 Version 0.9.8-26-32 [2020-08-02]
 ==================================================
 * [Feature] v-replace-in-file command introduced
-* [Security] Making sure new myVesta commands can be called only by root
+* [Security] Making sure new Vesta commands can be called only by root
 
 Version 0.9.8-26-31 [2020-07-30]
 ==================================================
-* [Feature] v-import-cpanel-backup command moved to vesta-bin folder (becoming standard myVesta command)
+* [Feature] v-import-cpanel-backup command moved to vesta-bin folder (becoming standard Vesta command)
 * Starting to log auto-update output
 
 Version 0.9.8-26-30 [2020-07-26]
@@ -305,10 +305,10 @@ Version 0.9.8-26-30 [2020-07-26]
 
 Version 0.9.8-26-29 [2020-07-21]
 ==================================================
-* [Feature] v-clone-website command moved to vesta-bin folder (becoming standard myVesta command)
-* [Feature] v-migrate-site-to-https command moved to vesta-bin folder (becoming standard myVesta command)
+* [Feature] v-clone-website command moved to vesta-bin folder (becoming standard Vesta command)
+* [Feature] v-migrate-site-to-https command moved to vesta-bin folder (becoming standard Vesta command)
 * [Bugfix] Fix for ClamAV socket
-* Changing Vesta to myVesta in title of hosting panel pages
+* Changing Vesta to Vesta in title of hosting panel pages
 
 Version 0.9.8-26-28 [2020-07-15]
 ==================================================
@@ -320,8 +320,8 @@ Version 0.9.8-26-28 [2020-07-15]
 
 Version 0.9.8-26-27 [2020-07-05]
 ==================================================
-* [Feature] Admins now see changelog when they open myVesta panel after myVesta get updated (changelog will dissapear on next refresh)
-* [Bugfix] Better control of opened SMTP concurrent connections (preventing denial-of-service of SMTP) on fresh installed servers - https://github.com/myvesta/vesta/commit/c57b15b5daca2a0ea88ee6a89a2ff5a4ef47d2a3
+* [Feature] Admins now see changelog when they open Vesta panel after Vesta get updated (changelog will dissapear on next refresh)
+* [Bugfix] Better control of opened SMTP concurrent connections (preventing denial-of-service of SMTP) on fresh installed servers - https://github.com/cpvesta/vesta/commit/c57b15b5daca2a0ea88ee6a89a2ff5a4ef47d2a3
 * Second tuning of php-fpm pool.d config files (perfomances and limits)
 
 Version 0.9.8-26-26 [2020-06-27]
@@ -352,7 +352,7 @@ Version 0.9.8-26-21 [2020-06-13]
 ==================================================
 * [Feature] Blocking executable files inside archives in received emails (ClamAV)
 * [Bugfix] Removing ability to schedule LetsEncrypt issuing while adding new domain (because it can fall in infinite loop whole day)
-* [Bugfix] Force acme-challenge to use Apache if myVesta is behind main nginx
+* [Bugfix] Force acme-challenge to use Apache if Vesta is behind main nginx
 * [Bugfix] Adding http2 support to nginx caching.tpl
 * [Bugfix] Script that removes depricated 'ssl on;' in nginx templates
 * [Security] Ensure UPDATE_SSL_SCRIPT is not set in some config files
@@ -392,7 +392,7 @@ Version 0.9.8-26-15 [2020-05-09]
 Version 0.9.8-26-14 [2020-05-08]
 ==================================================
 * v-clone-website script switched to parameters
-* Display new version in console while updating myVesta
+* Display new version in console while updating Vesta
 
 Version 0.9.8-26-13 [2020-05-07]
 ==================================================
@@ -400,7 +400,7 @@ Version 0.9.8-26-13 [2020-05-07]
 
 Version 0.9.8-26-12 [2020-05-07]
 ==================================================
-* [Feature] Put build date and version while compiling myVesta
+* [Feature] Put build date and version while compiling Vesta
 * [Feature] Office365 DNS template
 * [Feature] Yandex DNS template
 * ProFTPD MaxIstances = 100 for fresh installed servers
@@ -443,7 +443,7 @@ Version 0.9.8-26-6 [2020-02-21]
 Version 0.9.8-26-5 [2020-02-10]
 ==================================================
 * [Security] sudoers fix for Debian10
-* [Feature] [Script that will migrate your site from http to https, replacing http to https URLs in database](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/v-migrate-site-to-https)
+* [Feature] [Script that will migrate your site from http to https, replacing http to https URLs in database](https://github.com/cpvesta/vesta/blob/master/src/deb/for-download/tools/v-migrate-site-to-https)
 * [Feature] [Cloning script that will copy the whole site from one domain to another (sub)domain](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/v-clone-website)
 * [Feature] [Script that will install multiple PHP versions on your server](https://github.com/myvesta/vesta/blob/master/src/deb/for-download/tools/multi-php-install.sh)
 * [Bugfix] Roundcube force https
