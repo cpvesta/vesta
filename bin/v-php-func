@@ -1,8 +1,8 @@
 #!/bin/bash
-# info: calling myVesta PHP functions
+# info: calling Vesta PHP functions
 # options: FUNCTION
 #
-# The function is calling myVesta or standard PHP functions directly from bash
+# The function is calling Vesta or standard PHP functions directly from bash
 
 #----------------------------------------------------------#
 #                       Action                             #
